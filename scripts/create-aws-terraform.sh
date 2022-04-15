@@ -19,4 +19,29 @@ terraform {
 provider "aws" {
   region = var.aws_region
 } 
+
+locals {
+  aws_region       = "us-east-1"
+  environment_name = "staging"
+  tags = {
+    ops_env              = "$1"
+    ops_managed_by       = "terraform",
+    ops_source_repo      = "sample-project",
+    ops_source_repo_path = "exklinxence/sample-project",
+    ops_owners           = "collins",
+  }
+}
 EOF
+
+
+cat <<  END > variable.tf 
+variable "aws_region" {
+type = string
+default = "us-east-1"
+description ="region for Infrastructure deployment"
+}
+END
+
+terraform init
+
+terraform fmt
